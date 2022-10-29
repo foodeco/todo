@@ -157,7 +157,7 @@ const memo = document.querySelector('.memo');
 let saveMemo = '';
 
 function onInput() {
-    //this.style.height = this.scrollHeight;
+    this.style.height = '88px';
     this.style.height = (this.scrollHeight) + "px";
 }
 memo.children[0].addEventListener('input', onInput, false);
