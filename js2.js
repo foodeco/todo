@@ -220,36 +220,48 @@ headerButton.addEventListener('click', (e) => {
     let target = e.target.parentElement;
     let id = YMD.getDate();
     if (target.classList.contains('prev')) {
-        todayStorage();
-
-        if (YMD.getDate() === 1) {
-            YMD = new Date(YMD.getFullYear(), YMD.getMonth()-1, pageYear[YMD.getMonth()]);
-            first = new Date(YMD.getFullYear(), YMD.getMonth(), 1);
-            saveMonth = new newStorage(monthList[YMD.getMonth()]);
-            removeCalender();
-            generateCalender();
+        if (YMD.getMonth() === 0 && YMD.getDate() === 1) {
+            alert('2021년은 없다!')
+            return;
         } else {
-            YMD = new Date(YMD.getFullYear(), YMD.getMonth(), YMD.getDate()-1);
+            todayStorage();
+
+            if (YMD.getDate() === 1) {
+                YMD = new Date(YMD.getFullYear(), YMD.getMonth()-1, pageYear[YMD.getMonth()]);
+                first = new Date(YMD.getFullYear(), YMD.getMonth(), 1);
+                saveMonth = new newStorage(monthList[YMD.getMonth()]);
+                removeCalender();
+                generateCalender();
+            } else {
+                YMD = new Date(YMD.getFullYear(), YMD.getMonth(), YMD.getDate()-1);
+            }
+            today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + YMD.getDate() + " (" + day[YMD.getDay()] + ")";
+            id = YMD.getDate();
+
+            reloadList(id);
         }
-        today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + YMD.getDate() + " (" + day[YMD.getDay()] + ")";
-        id = YMD.getDate();
-    
-        reloadList(id);
+       
     } else if (target.classList.contains('next')) {
-        todayStorage();
-
-        if (YMD.getDate() === pageYear[YMD.getMonth()]) {
-            YMD = new Date(YMD.getFullYear(), YMD.getMonth()+1, 1);
-            first = new Date(YMD.getFullYear(), YMD.getMonth(), 1);
-            saveMonth = new newStorage(monthList[YMD.getMonth()]);
-            removeCalender();
-            generateCalender();
+        if (YMD.getMonth() === 11 && YMD.getDate() === pageYear[YMD.getMonth()]) {
+            alert('2023년은 오지 않는다!')
+            return;
         } else {
-            YMD = new Date(YMD.getFullYear(), YMD.getMonth(), YMD.getDate()+1);
+            todayStorage();
+
+            if (YMD.getDate() === pageYear[YMD.getMonth()]) {
+                YMD = new Date(YMD.getFullYear(), YMD.getMonth()+1, 1);
+                first = new Date(YMD.getFullYear(), YMD.getMonth(), 1);
+                saveMonth = new newStorage(monthList[YMD.getMonth()]);
+                removeCalender();
+                generateCalender();
+            } else {
+                YMD = new Date(YMD.getFullYear(), YMD.getMonth(), YMD.getDate()+1);
+            }
+            today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + YMD.getDate() + " (" + day[YMD.getDay()] + ")";
+            id = YMD.getDate();
+            reloadList(id);
         }
-        today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + YMD.getDate() + " (" + day[YMD.getDay()] + ")";
-        id = YMD.getDate();
-        reloadList(id);
+       
     } else if (target.classList.contains('prev-month')) {
         if (YMD.getMonth() === 0) {
             alert('2021년은 없다!')
