@@ -199,6 +199,14 @@ function generateCalender() {
         monthCnt++;
         calenderBody.appendChild($tr);
     }
+    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
+        tdGroup[i] = document.getElementById(i);
+        if (i === YMD.getDate()) {
+            tdGroup[i].classList.add('active');
+        } else if (tdGroup[i].classList.contains('active')) {
+            tdGroup[i].classList.remove('active');
+        }
+    }
 }
 generateCalender();
 
@@ -357,33 +365,44 @@ function reloadList(id) {
 
 let DELAY = 200, timer = null, clickCnt = 0;
 calender.addEventListener('click', (e)=>{
-    
     let id = Number(e.target.getAttribute('id'));
     //console.log(e.target.children[0].classList.contains('calender'));
     clickCnt++;
-    if (clickCnt === 1) {
+
+    if (clickCnt === 1) { // if click
         timer =setTimeout(()=>{clickCnt=0;}, DELAY);
-    } else {
-        clearTimeout(timer);
-        let CALENDER = document.querySelector('.calender');
-        clickCnt = 0;
-        CALENDER.style.display = "none";
-    }
-    if (id > 0) {
+
+        if (e.target.hasAttribute('id')) {
+            for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
+                tdGroup[i] = document.getElementById(i);
+                if (i === id) {
+                    tdGroup[i].classList.add('active');
+                } else if (tdGroup[i].classList.contains('active')) {
+                    tdGroup[i].classList.remove('active');
+                }
+            }  
+        }
+        if (e.target.children[0] === undefined) {
+            return;
+        } else if (e.target.children[0].classList.contains('calender')) {
+            let $calender = e.target.children[0];
+
+            if ($calender.style.display === "none") {
+                $calender.style.display = "block";
+            } else if ($calender.style.display === "block") {
+                $calender.style.display = "none";
+            }
+        }
+    } else { // if double clicks
         todayStorage();
         YMD = new Date(YMD.getFullYear(), YMD.getMonth(), id); 
         today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + id + " (" + day[YMD.getDay()] + ")"; 
         reloadList(id);
-        
-    } else if (e.target.children[0] === undefined) {
-        return;
-    } else if (e.target.children[0].classList.contains('calender')) {
-        let $calender = e.target.children[0];
-        if ($calender.style.display === "none") {
-            $calender.style.display = "block";
-        } else if ($calender.style.display === "block") {
-            $calender.style.display = "none";
-        }
+
+        clearTimeout(timer);
+        let CALENDER = document.querySelector('.calender');
+        clickCnt = 0;
+        CALENDER.style.display = "none";
     }
     
 })
@@ -434,6 +453,9 @@ window.addEventListener('click', (e) => {
     let target = e.target;
     if (memo.children[0].value !== '') {
         savememo = memo.children[0].value;
+    }
+    if (target.parentElement.classList.contains('prev-month') || target.parentElement.classList.contains('next-month')) {
+        return;
     }
     while (!target.classList.contains('calender-button')) {
         target = target.parentNode;
