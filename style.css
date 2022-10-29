@@ -107,38 +107,14 @@ nav {
     word-wrap: break-word; 
     resize: none; 
     min-height: 88px;
+    width: 100%;
     padding: 1em;
     line-height: 1.5em;
     letter-spacing: 0.1em;
     background-image: url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
     background-repeat: repeat;
 }
-.memo_list {
-    transition: 0.1s;
-    position: relative;
-}
-/* 메모 미리보기 */
-.preview:hover ~ .delete::after {
-    content: attr(data-content);
-    position: absolute;
-    width: min-content;
-    height: max-content;
-    border: 1px solid black;
-    background: red;
-    z-index: 100;
-}
-.memo_list li div{
-    margin-right: 0.5em;
-}
-.preview {
-    overflow: hidden;
-    white-space: nowrap;
-}
-.memo_typing {
-    border: none;
-    background: rgba(180, 180, 19, 0.882);
-    color: white;
-}
+
 .slideIn {
     animation: slideIn 0.1s linear;
 }
