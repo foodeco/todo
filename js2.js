@@ -394,15 +394,18 @@ calender.addEventListener('click', (e)=>{
             }
         }
     } else { // if double clicks
-        todayStorage();
-        YMD = new Date(YMD.getFullYear(), YMD.getMonth(), id); 
-        today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + id + " (" + day[YMD.getDay()] + ")"; 
-        reloadList(id);
+        if (id > 0) {
+            todayStorage();
+            YMD = new Date(YMD.getFullYear(), YMD.getMonth(), id); 
+            today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + id + " (" + day[YMD.getDay()] + ")"; 
+            reloadList(id);
 
-        clearTimeout(timer);
-        let CALENDER = document.querySelector('.calender');
-        clickCnt = 0;
-        CALENDER.style.display = "none";
+            clearTimeout(timer);
+            let CALENDER = document.querySelector('.calender');
+            clickCnt = 0;
+            CALENDER.style.display = "none";
+        }
+       
     }
     
 })
