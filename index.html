@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./style.css"></link>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://kit.fontawesome.com/0078dec55f.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- 꾸미기 바 -->
+            <nav>
+                <div class="theme">
+                    <ul>
+                        <li>테마1</li>
+                        <li>테마2</li>
+                        <li>테마3</li>
+                    </ul>
+                </div>
+                <div class="memo">
+                    <!-- <input class="memo_btn" type="submit" value="새 메모"></input>
+                    <ul class="memo_list">
+                        <li><div class="preview">메모 리스트</div></li>
+                    </ul> -->
+                    <textarea class="memo-text" placeholder="test" name="text" rows="4" spellcheck="false"></textarea>
+                </div>
+            </nav>
+            <!-- todo -->
+            <div class="main_container">
+                <!-- 오늘 날짜/해당 날짜 표시 -->
+                <header>
+                    <div class="prev-month"><ion-icon name='chevron-back-outline'></ion-icon></div>
+                    <div class="prev"><ion-icon name='chevron-back-outline'></ion-icon></div>
+                    <div>
+                        <div class="today" style="color: rgba(0, 0, 0, 0.7);">1월 1일<br>월요일</div>
+                        <div class="calender-button">
+                            <table class="calender" style="display:none">
+                                <thead>
+                                    <tr>
+                                        <td class="sun">Sun</td>
+                                        <td>Mon</td>
+                                        <td>Tue</td>
+                                        <td>Wed</td>
+                                        <td>Thu</td>
+                                        <td>Fri</td>
+                                        <td class="sat">Sat</td>
+                                      </tr>
+                                </thead>
+                                <tbody class="calender-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="next"><ion-icon name='chevron-forward-outline'></ion-icon></div>
+                    <div class="next-month"><ion-icon name='chevron-forward-outline'></ion-icon></div>
+                </header>
+                <!-- 로그인 -->
+                <div class="login_container">
+                    <input type="button" value="Login"></input>
+                    <div class="profile"></div>
+                </div>
+                <!-- todo 메인 -->
+                <main>
+                    <!-- 일일 성취도 -->
+                    <section>
+                        <div class="progress">
+                            <label class="total">0 / 0</label>
+                            <progress value="0" max="0" class="progress_bar">
+                            </progress>
+                        </div>
+                    </section>
+                    <!-- todo 입력/목록 창 -->
+                    <section>
+                        <form style="text-align: center; margin-bottom: 2em;">
+                            <input class="text" type="text" placeholder="what's your plan?" autofocus>
+                            <input class="submit" type="submit" value="확인">
+                        </form>
+                        <ul class="todo_item">
+                            <!-- <li class=todo>
+                                <div>asd</div>
+                                <div class="edit"><i class='fa-regular fa-pen-to-square'></i></div>
+                                <div class="delete"><i class='fa-regular fa-trash-can'></i></div>
+                            </li> -->
+                        </ul>
+                    </section>
+                </main>
+            </div>
+        </div>
+
+        <script src="./js2.js"></script>
+    </body>
+</html>
