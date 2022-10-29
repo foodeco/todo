@@ -355,11 +355,20 @@ function reloadList(id) {
     }   
 }
 
+let DELAY = 200, timer = null, clickCnt = 0;
 calender.addEventListener('click', (e)=>{
     
     let id = Number(e.target.getAttribute('id'));
     //console.log(e.target.children[0].classList.contains('calender'));
-
+    clickCnt++;
+    if (clickCnt === 1) {
+        timer =setTimeout(()=>{clickCnt=0;}, DELAY);
+    } else {
+        clearTimeout(timer);
+        let CALENDER = document.querySelector('.calender');
+        clickCnt = 0;
+        CALENDER.style.display = "none";
+    }
     if (id > 0) {
         todayStorage();
         YMD = new Date(YMD.getFullYear(), YMD.getMonth(), id); 
