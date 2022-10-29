@@ -200,16 +200,19 @@ function generateCalender() {
         monthCnt++;
         calenderBody.appendChild($tr);
     }
+    markCalender(YMD.getDate());
+}
+generateCalender();
+function markCalender(id) {
     for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
         tdGroup[i] = document.getElementById(i);
-        if (i === YMD.getDate()) {
+        if (i === id) {
             tdGroup[i].classList.add('active');
         } else if (tdGroup[i].classList.contains('active')) {
             tdGroup[i].classList.remove('active');
         }
     }
 }
-generateCalender();
 
 function removeCalender() {
     let catchTr = 100;
@@ -353,14 +356,7 @@ function reloadList(id) {
     }
 
     // change mark in calender date
-    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        tdGroup[i] = document.getElementById(i);
-        if (i === id) {
-            tdGroup[i].classList.add('active');
-        } else if (tdGroup[i].classList.contains('active')) {
-            tdGroup[i].classList.remove('active');
-        }
-    }   
+    markCalender(id);
 }
 
 let DELAY = 200, timer = null, clickCnt = 0;
@@ -373,14 +369,7 @@ calender.addEventListener('click', (e)=>{
         timer =setTimeout(()=>{clickCnt=0;}, DELAY);
 
         if (e.target.hasAttribute('id')) {
-            for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-                tdGroup[i] = document.getElementById(i);
-                if (i === id) {
-                    tdGroup[i].classList.add('active');
-                } else if (tdGroup[i].classList.contains('active')) {
-                    tdGroup[i].classList.remove('active');
-                }
-            }  
+            markCalender(id);
         }
         if (e.target.children[0] === undefined) {
             return;
@@ -389,6 +378,7 @@ calender.addEventListener('click', (e)=>{
 
             if ($calender.style.display === "none") {
                 $calender.style.display = "block";
+                markCalender(YMD.getDate());
             } else if ($calender.style.display === "block") {
                 $calender.style.display = "none";
             }
