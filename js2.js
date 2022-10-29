@@ -178,6 +178,7 @@ if (first.getFullYear() % 4 === 0) {
     pageYear = noLeapYear;
 }
 
+let tdGroup = [];
 function generateCalender() {
     let monthCnt = 100;
     let cnt = 1;
@@ -221,7 +222,6 @@ function removeCalender() {
 
 let currentDate = document.getElementById(YMD.getDate());
 currentDate.classList.add('active');
-let tdGroup = [];
 
 const headerButton = document.querySelector('header');
 headerButton.addEventListener('click', (e) => {
