@@ -359,43 +359,34 @@ function reloadList(id) {
     markCalender(id);
 }
 
-let DELAY = 200, timer = null, clickCnt = 0;
 calender.addEventListener('click', (e)=>{
     let id = Number(e.target.getAttribute('id'));
     //console.log(e.target.children[0].classList.contains('calender'));
-    clickCnt++;
-
-    if (clickCnt === 1) { // if click
-        timer =setTimeout(()=>{clickCnt=0;}, DELAY);
-
-        if (e.target.hasAttribute('id')) {
-            markCalender(id);
-        }
-        if (e.target.children[0] === undefined) {
-            return;
-        } else if (e.target.children[0].classList.contains('calender')) {
-            let $calender = e.target.children[0];
-
-            if ($calender.style.display === "none") {
-                $calender.style.display = "block";
-                markCalender(YMD.getDate());
-            } else if ($calender.style.display === "block") {
-                $calender.style.display = "none";
-            }
-        }
-    } else { // if double clicks
-        if (id > 0) {
+    if (e.target.hasAttribute('id')) {
+        if (e.target.classList.contains('active')) {
             todayStorage();
             YMD = new Date(YMD.getFullYear(), YMD.getMonth(), id); 
             today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + id + " (" + day[YMD.getDay()] + ")"; 
             reloadList(id);
-
+    
             clearTimeout(timer);
             let CALENDER = document.querySelector('.calender');
             clickCnt = 0;
             CALENDER.style.display = "none";
         }
-       
+        markCalender(id);
+    }
+    if (e.target.children[0] === undefined) {
+        return;
+    } else if (e.target.children[0].classList.contains('calender')) {
+        let $calender = e.target.children[0];
+
+        if ($calender.style.display === "none") {
+            $calender.style.display = "block";
+            markCalender(YMD.getDate());
+        } else if ($calender.style.display === "block") {
+            $calender.style.display = "none";
+        }
     }
     
 })
