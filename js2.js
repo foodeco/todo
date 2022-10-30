@@ -369,7 +369,6 @@ calender.addEventListener('click', (e)=>{
             today.innerHTML = YMD.getFullYear() + " / " + (YMD.getMonth()+1) + " / " + id + " (" + day[YMD.getDay()] + ")"; 
             reloadList(id);
     
-            clearTimeout(timer);
             let CALENDER = document.querySelector('.calender');
             clickCnt = 0;
             CALENDER.style.display = "none";
