@@ -27,7 +27,7 @@ today.innerHTML = year + " / " + month + " / " + date + " (" + day[YMD.getDay()]
 
 let saveProgress = [0, 0];
 /** set progress-bar value, max */
-function progressBar(value, max) {
+const progressBar = (value, max) => {
     progress.setAttribute("value", value.toString());
     progress.setAttribute("max", max.toString());
     total.innerHTML = value + " / " + max;
@@ -45,7 +45,7 @@ function progressBar(value, max) {
 let level = 0;
 let saveTodo = [];
 let saveComplete = [];
-function createDiv(a) {
+const createDiv = (a) => {
     let Edit = document.createElement('div');
     let Delete = document.createElement('div');
     
@@ -58,7 +58,7 @@ function createDiv(a) {
     a.appendChild(Delete)
 }
 /** create new todo line */
-function addList(e) {
+const addList = (e) => {
     let li = document.createElement('li');
     e.preventDefault();
 
@@ -69,14 +69,14 @@ function addList(e) {
         createDiv(li);
         todo.append(li);
         saveTodo[saveTodo.length] = text.value;
-        console.log(saveTodo);
+
         text.value = null;
         li.classList.add('slideIn');
         progressBar(level, todo.children.length);
     }
 }
 /** add edit/delete/complete */
-function todos(e) {
+const todos = (e) => {
     let target = e.target;
     let todoText = null;
     
@@ -97,7 +97,6 @@ function todos(e) {
             for (let i = 0; i < todo.children.length; i++) {
                 if (todo.children[i] === target) {
                     saveTodo[i] = todoText;
-                    console.log(saveTodo);
                 }
             }
         })
@@ -179,7 +178,17 @@ if (first.getFullYear() % 4 === 0) {
 }
 
 let tdGroup = [];
-function generateCalender() {
+const markCalender = (id) => {
+    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
+        tdGroup[i] = document.getElementById(i);
+        if (i === id) {
+            tdGroup[i].classList.add('active');
+        } else if (tdGroup[i].classList.contains('active')) {
+            tdGroup[i].classList.remove('active');
+        }
+    }
+}
+const generateCalender = () => {
     let monthCnt = 100;
     let cnt = 1;
     for (var i = 0; i < 6; i++) {
@@ -203,18 +212,8 @@ function generateCalender() {
     markCalender(YMD.getDate());
 }
 generateCalender();
-function markCalender(id) {
-    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        tdGroup[i] = document.getElementById(i);
-        if (i === id) {
-            tdGroup[i].classList.add('active');
-        } else if (tdGroup[i].classList.contains('active')) {
-            tdGroup[i].classList.remove('active');
-        }
-    }
-}
 
-function removeCalender() {
+const removeCalender = () => {
     let catchTr = 100;
     for (let i = 100; i < 106; i++) {
         let $tr = document.getElementById(catchTr);
@@ -301,7 +300,6 @@ headerButton.addEventListener('click', (e) => {
 
             if (pageYear[YMD.getMonth()+1] < id) {
                 id = pageYear[YMD.getMonth()+1];
-                console.log(id)
             }
             YMD = new Date(YMD.getFullYear(), YMD.getMonth()+1, id);
             first = new Date(YMD.getFullYear(), YMD.getMonth(), 1);
@@ -316,15 +314,15 @@ headerButton.addEventListener('click', (e) => {
 })
 
 /** load saved memo, todo lists */
-function reloadList(id) {
-    console.log(id, saveMonth.getItem(id));
+const reloadList = (id) => {
+
     if ((saveMonth.getItem(id) === undefined) || (saveMonth.getItem(id) === [])) {
         console.log(id, 'no data saved');
         saveMemo = '';
         saveTodo = [];
         saveProgress = [0, 0];
         saveComplete = [];
-
+        memo.children[0].value = saveMemo;
         progressBar(0, 0);
     } else {
         saveMemo = saveMonth.getItem(id)[0];
@@ -337,11 +335,9 @@ function reloadList(id) {
                 level++;
             }
         }
-        console.log(saveMemo)
 
         progressBar(level, saveProgress[1]);
         
-        console.log('day' + id ,saveMonth.getItem(id))
         memo.children[0].value = saveMemo;
         for (let i = 0; i < saveMonth.getItem(id)[1].length; i++) {
             let li = document.createElement('li');
@@ -361,7 +357,7 @@ function reloadList(id) {
 
 calender.addEventListener('click', (e)=>{
     let id = Number(e.target.getAttribute('id'));
-    //console.log(e.target.children[0].classList.contains('calender'));
+
     if (e.target.hasAttribute('id')) {
         if (e.target.classList.contains('active')) {
             todayStorage();
@@ -390,34 +386,26 @@ calender.addEventListener('click', (e)=>{
     
 })
 
-let newStorage = function(app) {
-    /** 애플리케이션 이름 */
-    this.app = app;
-    /** 이용할 스토리지의 종류 (여기는 로컬스토리지) */
-    this.storage = localStorage;
-    /** 스토리지로부터 읽어들인 객체
-     * 해당하는 객체가 없을 경우 빈 객체를 생성
-     */
-    this.data = JSON.parse(this.storage[this.app] || '{}');
-}
-newStorage.prototype = {
-    /** 지정된 키로 값을 취득 */
-    getItem : function(key) {
-        return this.data[key];
-    },
-    /** 지정된 키/값으로 객체를 고쳐씀 */
-    setItem : function(key, value) {
-        this.data[key] = value;
-    },
-    /** newStorage 객체의 내용을 스토리지에 보관 */
-    save : function() {
-        this.storage[this.app] = JSON.stringify(this.data);
+class newStorage {
+    constructor(app) { 
+        this.app = app; 
+        this.storage = localStorage; 
+        this.data = JSON.parse(this.storage[this.app] || '{}'); 
+    }
+    getItem(key) { 
+        return this.data[key]; 
+    }
+    setItem(key, value) { 
+        this.data[key] = value; 
+    }
+    save() { 
+        this.storage[this.app] = JSON.stringify(this.data); 
     }
 }
 let saveMonth = new newStorage(monthList[first.getMonth()]);
-//console.log(saveMonth.storage.getItem('October'))
+
 /** save data to local storage */
-function todayStorage() {
+const todayStorage = () => {
     saveMemo = memo.children[0].value;
     
     let saveToday = [saveMemo, saveTodo, saveProgress, saveComplete];
